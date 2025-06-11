@@ -15,7 +15,7 @@ jobs:
     - name: 📥 Clonar el repositori
       uses: actions/checkout@v3
 
-    - name: 🐍 Configurar Python 3.10
+    - name: 🐍 Configurar Python
       uses: actions/setup-python@v4
       with:
         python-version: '3.10'
@@ -29,14 +29,14 @@ jobs:
       run: |
         mkdir -p docs
 
-        # Generar documentació per views.py i models.py (depèn de Django)
+        # Documentació per views.py i models.py (depèn de Django)
         for file in $(find . -type f \( -name "views.py" -o -name "models.py" \)); do
-          pydoc -w "$file" || true
+          python -m pydoc -w "$file" || true
         done
 
-        # Generar documentació per altres fitxers python (sense migracions, env, views.py, models.py)
+        # Documentació per altres fitxers Python (sense migracions, env, views.py, models.py)
         for file in $(find . -name "*.py" -not -path "./env/*" -not -name "views.py" -not -name "models.py" -not -path "./*/migrations/*"); do
-          pydoc -w "$file" || true
+          python -m pydoc -w "$file" || true
         done
 
         mv *.html docs/ || true
