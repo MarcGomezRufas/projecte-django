@@ -1,4 +1,4 @@
-name: 📚 Generar documentació Django amb Pydoc
+name: 📚 Generar documentació amb Pydoc
 
 on:
   push:
@@ -20,30 +20,29 @@ jobs:
       with:
         python-version: '3.10'
 
-    - name: 📦 Instal·lar dependències
+    - name: 📦 Instal·lar dependències (inclòs Django)
       run: |
         python -m pip install --upgrade pip
         pip install -r requirements.txt
 
-    - name: 🔍 Comprovar versió de Django
-      run: |
-        python -c "import django; print('Django version:', django.get_version())"
+    - name: ✅ Comprovar versió Django
+      run: python -c "import django; print('Django version:', django.get_version())"
 
-    - name: 🗂️ Crear carpeta docs i generar documentació (views.py i models.py)
+    - name: 🗂️ Crear carpeta docs i generar documentació
       run: |
         mkdir -p docs
 
-        # Generar documentació per views.py i models.py (on hi ha Django)
+        # Generar documentació per views.py i models.py (que depenen de Django)
         for file in $(find . -type f \( -name "views.py" -o -name "models.py" \)); do
           pydoc -w "$file" || true
         done
 
-        # Generar documentació per altres fitxers Python que NO siguin Django
+        # Generar documentació per altres fitxers Python (sense migracions ni env)
         for file in $(find . -name "*.py" -not -path "./env/*" -not -name "views.py" -not -name "models.py" -not -path "./*/migrations/*"); do
           pydoc -w "$file" || true
         done
 
-        # Moure tots els html generats a docs/
+        # Moure tots els html a docs/
         mv *.html docs/ || true
 
     - name: 📝 Crear index.html automàtic
@@ -55,7 +54,7 @@ jobs:
         done
         echo "</ul></body></html>" >> docs/index.html
 
-    - name: 🚀 Pujar documentació a GitHub Pages
+    - name: 🚀 Pujar a GitHub Pages
       uses: peaceiris/actions-gh-pages@v4
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
