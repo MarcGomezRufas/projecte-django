@@ -22,15 +22,14 @@ jobs:
 
     - name: 📦 Instal·lar dependències
       run: |
-        python -m venv env
-        source env/bin/activate || .\env\Scripts\activate
-        pip install -r requirements.txt || true
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
 
     - name: 🗂️ Crear carpeta i generar documentació
       run: |
         mkdir -p docs
         for file in $(find . -name "*.py" -not -path "./env/*"); do
-          pydoc -w "$file"
+          pydoc -w "$file" || true
         done
         mv *.html docs/ || true
 
