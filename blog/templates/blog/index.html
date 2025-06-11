@@ -1,0 +1,30 @@
+<!-- blog/templates/blog/inici.html -->
+{% extends "blog/base.html" %}
+{% load static %}
+{% block css %}
+    <link rel="stylesheet" href="{% static 'blog/posts.css' %}">
+{% endblock %} 
+{% block title %}Inici - Blog M3-UF6{% endblock %}
+{% block content %}
+    <h1>Benvingut al Blog M3 - UF6</h1>
+    <p>Hola! Aquest el el projecte de M3-UF6 basat en DJango</p>
+
+    <h2>Els darrers Posts</h2>
+    <div class="post-grid">
+    {% for post in posts %}
+    <div class="post-card">
+
+        <img src="{% static 'blog/' %}{{ post.imatge }}" alt="{{ post.titol }}">
+        <h3>{{ post.titol }}</h3>
+        <p>{{ post.descripcio }}</p>
+        
+        <a href="{% url 'post_detall' post.id %}" class="btn">Veure més</a>
+    </div>
+    {% endfor %}
+    </div>
+
+    <h2>DJango</h2>
+    <p>
+        Django és un framework popular de desenvolupament web de codi obert que s'utilitza per crear aplicacions web robustes i escalables en Python...
+    </p>
+{% endblock %}

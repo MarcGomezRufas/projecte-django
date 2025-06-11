@@ -1,0 +1,31 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+    <meta charset="UTF-8">
+    <title>Blog M3-UF6-DJANGO</title>
+    {% block css %}{% endblock %}
+    <link rel="stylesheet" href="{% static 'blog/blog.css' %}">
+</head>
+<body>
+    <nav>
+        <div class="nav-container">
+            <a href="/" class="nav-link">INICI</a>
+            <a href="/posts/" class="nav-link">POSTS</a>
+            <a href="/autors/" class="nav-link">AUTORS</a>
+            <a href="/tags/" class="nav-link">TAGS</a>
+        </div>
+    </nav>
+
+    <header class="capcalera-imatge">
+        <div class="text-capcalera">
+            <h1>Benvingut al Blog M3 - UF6</h1>
+            <p>Aquest és el projecte d'aprenentatge M3-UF6 basat en DJango</p>
+        </div>
+    </header>
+
+    <main>
+        {% block content %}{% endblock %}
+    </main>
+</body>
+</html>

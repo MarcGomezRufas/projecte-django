@@ -1,0 +1,18 @@
+{% extends "blog/base.html" %}
+{% load static %}
+
+{% block css %}
+    <link rel="stylesheet" href="{% static 'blog/posts.css' %}">
+{% endblock %} 
+{% block title %}Llistat de tots els tags{% endblock %}
+{% block description %}Llistat de tots els tags{% endblock %}ç
+{% block content %}
+<h2>Llistat de tots els tags</h2>
+<div class="post-grid">
+    {% for tag in tags %}
+    <div class="post-detall">
+        <a href="{% url 'tags_posts' tag.id %}" class="boto-tag">{{tag.caption}}</a>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}

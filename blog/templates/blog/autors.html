@@ -1,0 +1,17 @@
+{% extends "blog/base.html" %}
+{% load static %}
+{% block css %}
+    <link rel="stylesheet" href="{% static 'blog/posts.css' %}">
+{% endblock %} 
+{% block content %}
+<h2>Llistat de tots els autors</h2>
+<div class="post-grid">
+    {% for autor in autors %}
+    <div class="post-card">
+        <h3>{{ autor.nom }}</h3>
+        <p>{{ autor.cognom }}</p>
+        <a href="{% url 'autors_detall' autor.id %}" class="btn">Veure més</a>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}

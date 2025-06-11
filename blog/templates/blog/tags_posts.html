@@ -1,0 +1,20 @@
+{% extends "blog/base.html" %}
+{% load static %}
+{% block css %}
+    <link rel="stylesheet" href="{% static 'blog/posts.css' %}">
+{% endblock %} 
+{% block content %}
+<h1>Llistat de tots els posts amb l'etiqueta <u>{{tag.caption}}</u></h1>
+<article class="post-grid">
+    {% for post in tag.posts.all %}
+    <div class="post-card">
+
+        <img src="{% static 'blog/' %}{{ post.imatge }}" alt="{{ post.titol }}">
+        <h3>{{ post.titol }}</h3>
+        <p>{{ post.descripcio }}</p>
+        
+        <a href="{% url 'post_detall' post.id %}" class="btn">Veure més</a>
+    </div>
+    {% endfor %}
+</article>
+{% endblock %}

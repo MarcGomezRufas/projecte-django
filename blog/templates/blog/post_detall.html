@@ -1,0 +1,21 @@
+{% extends "blog/base.html" %}
+{% load static %}
+{% block css %}
+    <link rel="stylesheet" href="{% static 'blog/posts.css' %}">
+{% endblock %} 
+{% block content %}
+<article class="post-detall">
+    <h1>{{ post.titol }}</h1>
+    <p>{{post.descripcio}}</p>
+    <p>{{ post.data }} - 
+        <a href="{% url 'autors_detall' post.autor.id %}">{{ post.autor }}</a>
+    </p>
+    <img src="{% static 'blog/' %}{{ post.imatge }}" alt="{{ post.titol }}"class=post-detall-img>
+    <p>{{ post.contingut }}</p>
+
+    <h1>Tags</h1>
+    {% for tag in post.tag.all %}
+        <a href="{% url 'tags_posts' tag.id %}" class="boto-tag"> {{tag.caption}}</a>
+    {% endfor %}
+</article>
+{% endblock %}
