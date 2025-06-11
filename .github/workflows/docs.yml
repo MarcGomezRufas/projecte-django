@@ -31,14 +31,6 @@ jobs:
         python generate_docs.py
         mv *.html docs/ || true
 
-    - name: 📝 Crear index.html automàtic
-      run: |
-        echo "<html><body><h1>Documentació Pydoc</h1><ul>" > docs/index.html
-        for file in docs/*.html; do
-          name=$(basename "$file")
-          echo "<li><a href='$name'>$name</a></li>" >> docs/index.html
-        done
-        echo "</ul></body></html>" >> docs/index.html
 
     - name: 🚀 Pujar a GitHub Pages
       uses: peaceiris/actions-gh-pages@v4
