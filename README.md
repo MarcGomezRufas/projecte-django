@@ -26,11 +26,9 @@ Visitar http://127.0.0.1:8000/ per accedir-hi.
 
 La documentació dels fitxers `.py` es genera automàticament amb `pydoc` mitjançant un workflow de GitHub Actions. Pots consultar-la aquí:
 
-🔗 [Veure documentació generada](https://marcgomezrufas.github.io/projecte-django/)
+🔗 [Veure documentació generada des del index.html](https://marcgomezrufas.github.io/projecte-django/)
+<li><a href="https://htmlpreview.github.io/?https://marcgomezrufas.github.io/projecte-django/blog.models.html" rel="nofollow">Pàgina models.py</a></li> 
+<li><a href="https://htmlpreview.github.io/?https://marcgomezrufas.github.io/projecte-django/blog.views.html" rel="nofollow">Pàgina views.py</a></li>
 
 ## GitHub Actions
 Fitxer de CI ubicat a .github/workflows/docs.yml.
-
-## Documentació Generada Enllaços
-[models.py](https://marcgomezrufas.github.io/projecte-django/blog.models.html)
-[views.py](https://marcgomezrufas.github.io/projecte-django/blog.views.html)
