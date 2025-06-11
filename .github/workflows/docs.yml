@@ -15,34 +15,30 @@ jobs:
     - name: 📥 Clonar el repositori
       uses: actions/checkout@v3
 
-    - name: 🐍 Configurar Python
+    - name: 🐍 Configurar Python 3.10
       uses: actions/setup-python@v4
       with:
         python-version: '3.10'
 
-    - name: 📦 Instal·lar dependències (inclòs Django)
+    - name: 📦 Instal·lar dependències
       run: |
         python -m pip install --upgrade pip
         pip install -r requirements.txt
 
-    - name: ✅ Comprovar versió Django
-      run: python -c "import django; print('Django version:', django.get_version())"
-
-    - name: 🗂️ Crear carpeta docs i generar documentació
+    - name: 🗂️ Crear carpeta i generar documentació
       run: |
         mkdir -p docs
 
-        # Generar documentació per views.py i models.py (que depenen de Django)
+        # Generar documentació per views.py i models.py (depèn de Django)
         for file in $(find . -type f \( -name "views.py" -o -name "models.py" \)); do
           pydoc -w "$file" || true
         done
 
-        # Generar documentació per altres fitxers Python (sense migracions ni env)
+        # Generar documentació per altres fitxers python (sense migracions, env, views.py, models.py)
         for file in $(find . -name "*.py" -not -path "./env/*" -not -name "views.py" -not -name "models.py" -not -path "./*/migrations/*"); do
           pydoc -w "$file" || true
         done
 
-        # Moure tots els html a docs/
         mv *.html docs/ || true
 
     - name: 📝 Crear index.html automàtic
