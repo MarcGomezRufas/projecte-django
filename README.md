@@ -32,5 +32,5 @@ La documentació dels fitxers `.py` es genera automàticament amb `pydoc` mitjan
 Fitxer de CI ubicat a .github/workflows/docs.yml.
 
 ## Documentació Generada Enllaços
-models.py
-views.py
+[models.py]([url](https://marcgomezrufas.github.io/projecte-django/blog.models.html))
+[views.py]([url](https://marcgomezrufas.github.io/projecte-django/blog.views.html))
