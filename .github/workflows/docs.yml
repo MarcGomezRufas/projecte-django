@@ -1,0 +1,39 @@
+name: 📚 Generar documentació amb Pydoc
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  build-docs:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: 📥 Clonar el repositori
+      uses: actions/checkout@v3
+
+    - name: 🐍 Configurar Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.10'
+
+    - name: 📦 Instal·lar dependències
+      run: |
+        python -m venv env
+        source env/bin/activate || .\env\Scripts\activate
+        pip install -r requirements.txt || true
+
+    - name: 🗂️ Generar documentació amb pydoc
+      run: |
+        mkdir -p docs
+        for file in $(find . -name "*.py" -not -path "./env/*"); do
+          filename=$(basename "$file" .py)
+          pydoc -w "$file" || true
+          mv "$filename.html" docs/ 2>/dev/null || true
+        done
+
+    - name: 🚀 Pujar a GitHub Pages
+      uses: peaceiris/actions-gh-pages@v4
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        publish_dir: ./docs
