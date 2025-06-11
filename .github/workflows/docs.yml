@@ -4,6 +4,9 @@ on:
   push:
     branches: [main]
 
+permissions:
+  contents: write
+
 jobs:
   build-docs:
     runs-on: ubuntu-latest
@@ -12,7 +15,7 @@ jobs:
     - name: 📥 Clonar el repositori
       uses: actions/checkout@v3
 
-    - name: 🐍 Configurar Python 3.10
+    - name: 🐍 Configurar Python
       uses: actions/setup-python@v4
       with:
         python-version: '3.10'
@@ -20,22 +23,21 @@ jobs:
     - name: 📦 Instal·lar dependències
       run: |
         python -m pip install --upgrade pip
-        if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
-        pip install Django>=4.2
+        pip install -r requirements.txt
 
-    - name: ✅ Comprovar versió Django
-      run: |
-        python -c "import django; print('Django version:', django.get_version())"
-
-    - name: 🗂️ Crear carpeta i generar documentació amb Pydoc
+    - name: 🗂️ Crear carpeta i generar documentació ignorat fitxers que importin Django
       run: |
         mkdir -p docs
         for file in $(find . -name "*.py" -not -path "./env/*" -not -path "./*/migrations/*"); do
-          pydoc -w "$file" || true
+          if ! grep -q -E '^\s*(import|from)\s+django' "$file"; then
+            pydoc -w "$file" || true
+          else
+            echo "Ignorat $file perquè importa Django"
+          fi
         done
         mv *.html docs/ || true
 
-    - name: 📝 Crear index.html automàtic per la documentació
+    - name: 📝 Crear index.html automàtic
       run: |
         echo "<html><body><h1>Documentació Pydoc</h1><ul>" > docs/index.html
         for file in docs/*.html; do
@@ -44,7 +46,7 @@ jobs:
         done
         echo "</ul></body></html>" >> docs/index.html
 
-    - name: 🚀 Pujar documentació a GitHub Pages
+    - name: 🚀 Pujar a GitHub Pages
       uses: peaceiris/actions-gh-pages@v4
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
