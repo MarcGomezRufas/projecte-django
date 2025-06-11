@@ -25,20 +25,10 @@ jobs:
         python -m pip install --upgrade pip
         pip install -r requirements.txt
 
-    - name: 🗂️ Crear carpeta i generar documentació
+    - name: 🗂️ Generar documentació amb generate_docs.py
       run: |
         mkdir -p docs
-
-        # Documentació per views.py i models.py (depèn de Django)
-        for file in $(find . -type f \( -name "views.py" -o -name "models.py" \)); do
-          python -m pydoc -w "$file" || true
-        done
-
-        # Documentació per altres fitxers Python (sense migracions, env, views.py, models.py)
-        for file in $(find . -name "*.py" -not -path "./env/*" -not -name "views.py" -not -name "models.py" -not -path "./*/migrations/*"); do
-          python -m pydoc -w "$file" || true
-        done
-
+        python generate_docs.py
         mv *.html docs/ || true
 
     - name: 📝 Crear index.html automàtic
