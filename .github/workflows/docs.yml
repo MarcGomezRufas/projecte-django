@@ -25,7 +25,7 @@ jobs:
       - name: 🧾 Generar documentació amb Pydoc
         run: |
           mkdir -p docs
-          for file in $(find . -name "*.py" -not -path "./env/*"); do
+          for file in $(find . -name "*.py" -not -path "./env/*" -not -path "./*/migrations/*"); do
             pydoc -w "$file" || true
           done
           mv *.html docs/ || true
