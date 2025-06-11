@@ -26,6 +26,16 @@ jobs:
         source env/bin/activate || .\env\Scripts\activate
         pip install -r requirements.txt || true
 
+    - name: 📝 Crear index.html
+      run: |
+        echo "<html><body><h1>Documentació</h1><ul>" > docs/index.html
+        for file in docs/*.html; do
+          name=$(basename $file)
+          echo "<li><a href='$name'>$name</a></li>" >> docs/index.html
+        done
+        echo "</ul></body></html>" >> docs/index.html
+
+
     - name: 🗂️ Generar documentació amb pydoc
       run: |
         mkdir -p docs
